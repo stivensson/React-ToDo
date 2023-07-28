@@ -1,7 +1,8 @@
 
-import NewTaskForm from './NewTaskForm'
-import TaskList from './TaskList'
-import Footer from './Footer'
+import NewTaskForm from '../NewTaskForm'
+import TaskList from '../TaskList'
+import Footer from '../Footer'
+import './App.css'
 
 const App = () => {
   const taskData = [

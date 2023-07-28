@@ -1,4 +1,6 @@
 
+import './NewTaskForm.css'
+
 const NewTaskForm = () => {
     return (
         <header className='header'>

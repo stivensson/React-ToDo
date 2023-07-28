@@ -1,4 +1,6 @@
 
+import './TasksFilter.css'
+
 const TasksFilter = () => {
     return (
         <ul className="filters">

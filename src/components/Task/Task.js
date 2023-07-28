@@ -1,4 +1,6 @@
 
+import './Task.css'
+
 const Task = ( {description, created} ) => {
     return (
         <div className="view">

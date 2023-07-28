@@ -1,6 +1,7 @@
 
-import Task from './Task'
-import EditTask from './EditTask'
+import Task from '../Task'
+import EditTask from '../EditTask'
+import './TaskList.css'
 
 const TaskList = ( {label} ) => {
     return (
