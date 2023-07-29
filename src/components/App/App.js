@@ -10,12 +10,18 @@ const App = () => {
     {description: 'Active task', created: 'created 5 minutes ago'}
   ]
 
+  const filterData = [
+    {classFilter: 'selected', description: 'All'},
+    {description: 'Active'},
+    {description: 'Completed'}
+  ]
+
   return (
     <section className='todoapp'>
       <NewTaskForm />
       <section className='main'>
-        <TaskList label = {taskData} />
-        <Footer />
+        <TaskList labels = {taskData} />
+        <Footer filters = {filterData} />
       </section>
     </section>
   )

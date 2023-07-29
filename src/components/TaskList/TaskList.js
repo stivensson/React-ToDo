@@ -3,17 +3,17 @@ import Task from '../Task'
 import EditTask from '../EditTask'
 import './TaskList.css'
 
-const TaskList = ( {label} ) => {
+const TaskList = ( {labels} ) => {
     return (
         <ul className="todo-list">
             <li className="completed">
-                <Task {...label[0]} />
+                <Task {...labels[0]} />
             </li>
             <li className="editing">
                 <EditTask />
             </li>
             <li>
-                <Task {...label[1]} />
+                <Task {...labels[1]} />
             </li>
         </ul>
     )
