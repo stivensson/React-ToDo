@@ -1,30 +1,63 @@
 
+import React, {Component} from 'react'
 import NewTaskForm from '../NewTaskForm'
 import TaskList from '../TaskList'
 import Footer from '../Footer'
 import './App.css'
 
-const App = () => {
-  const taskData = [
-    {description: 'Completed task', created: 'created 17 seconds ago'},
-    {description: 'Active task', created: 'created 5 minutes ago'}
-  ]
+export default class App extends Component {
+  state = {
+    taskData: []
+  }
 
-  const filterData = [
-    {classFilter: 'selected', description: 'All'},
-    {description: 'Active'},
-    {description: 'Completed'}
-  ]
+  idNumber = 1
 
-  return (
-    <section className='todoapp'>
-      <NewTaskForm />
-      <section className='main'>
-        <TaskList labels = {taskData} />
-        <Footer filters = {filterData} />
+  addTask = (text) => {
+    const newTask = {
+      label: text,
+      id: this.idNumber++
+    }
+
+    this.setState(( {taskData} ) => {
+      const newTaskData = [
+        ...taskData,
+        newTask
+      ]
+
+      return {
+        taskData: newTaskData
+      }
+    })
+  }
+
+  deleteTask = (id) => {
+    this.setState(( {taskData} ) => {
+      const index = taskData.findIndex(item => item.id === id)
+
+      const newTaskData = taskData.toSpliced(index, 1)
+
+      return {
+        taskData: newTaskData
+      }
+    })
+  }
+
+  render() {
+    const taskCount = this.state.taskData.length
+
+    return (
+      <section className='todoapp'>
+        <NewTaskForm
+          addTask = {this.addTask}
+        />
+        <section className='main'>
+          <TaskList 
+            labels = {this.state.taskData}
+            deleteTask = {this.deleteTask}
+          />
+          <Footer todoCount = {taskCount}/>
+        </section>
       </section>
-    </section>
-  )
+    )
+  }
 }
-
-export default App

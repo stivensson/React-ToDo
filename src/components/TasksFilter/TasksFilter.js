@@ -4,7 +4,18 @@ import './TasksFilter.css'
 
 export default class TasksFilter extends Component {
     render() {
-        const {classFilter, description} = this.props
-        return <button className={classFilter} type="button">{description}</button>
+        return (
+            <ul className='filters'>
+                <li>
+                    <button type='button' className='selected'>All</button>
+                </li>
+                <li>
+                    <button type='button'>Active</button>
+                </li>
+                <li>
+                    <button type='button'>Completed</button>
+                </li>
+            </ul>
+        )
     }
 }

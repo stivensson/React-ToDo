@@ -1,22 +1,28 @@
 
+import React, {Component} from 'react'
 import Task from '../Task'
-import EditTask from '../EditTask'
 import './TaskList.css'
 
-const TaskList = ( {labels} ) => {
-    return (
-        <ul className="todo-list">
-            <li className="completed">
-                <Task {...labels[0]} />
-            </li>
-            <li className="editing">
-                <EditTask />
-            </li>
-            <li>
-                <Task {...labels[1]} />
-            </li>
-        </ul>
-    )
-}
+export default class TaskList extends Component {
+    render() {
+        const {labels, deleteTask} = this.props
+        
+        const ulEl = labels.map(item => {
+            const {id, label} = item
+            return (
+                <li className = '' key = {id}>
+                    <Task
+                        text = {label}
+                        deleteTask = {() => deleteTask(id)}
+                    />
+                </li>
+            )
+        })
 
-export default TaskList
+        return (
+            <ul className="todo-list">
+                {ulEl}
+            </ul>
+        )
+    }
+}
