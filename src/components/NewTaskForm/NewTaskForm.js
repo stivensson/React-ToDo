@@ -32,7 +32,7 @@ export default class NewTaskForm extends Component {
                         type = 'text'
                         onChange = {this.onInputText}
                         value = {this.state.label}
-                        />
+                    />
                 </form>
             </header>
         )

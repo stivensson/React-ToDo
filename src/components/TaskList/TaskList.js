@@ -5,17 +5,19 @@ import './TaskList.css'
 
 export default class TaskList extends Component {
     render() {
-        const {labels, deleteTask} = this.props
-        
+        const {labels, deleteTask, completedTask} = this.props
+
         const ulEl = labels.map(item => {
-            const {id, label} = item
+            const {id, label, completed} = item
             return (
-                <li className = '' key = {id}>
-                    <Task
-                        text = {label}
-                        deleteTask = {() => deleteTask(id)}
-                    />
-                </li>
+                <Task
+                    key = {id}
+                    text = {label}
+                    deleteTask = {deleteTask}
+                    completedTask = {completedTask}
+                    completed = {completed}
+                    id = {id}
+                />
             )
         })
 
