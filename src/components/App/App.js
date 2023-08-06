@@ -1,8 +1,10 @@
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+
 import NewTaskForm from '../NewTaskForm'
 import TaskList from '../TaskList'
 import Footer from '../Footer'
+
 import './App.css'
 
 export default class App extends Component {
@@ -24,6 +26,7 @@ export default class App extends Component {
       label: text,
       completed: false,
       editing: false,
+      date: new Date(),
       id: this.idNumber++
     }
 
@@ -105,6 +108,14 @@ export default class App extends Component {
     })
   }
 
+  clearCompleted = () => {
+    this.setState(( {taskData} ) => {
+      return {
+        taskData: taskData.filter(item => !item.completed)
+      }
+    })
+  }
+
   taskCount = () => {
     const count = this.state.taskData.filter(item => !item.completed)
 
@@ -129,6 +140,7 @@ export default class App extends Component {
             taskCount = {this.taskCount()}
             filteredTask = {this.filteredTask}
             filter = {this.state.filter}
+            clearCompleted = {this.clearCompleted}
           />
         </section>
       </section>

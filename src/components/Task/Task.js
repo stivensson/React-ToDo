@@ -1,5 +1,7 @@
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+
 import './Task.css'
 
 export default class Task extends Component {
@@ -25,6 +27,7 @@ export default class Task extends Component {
                completedTask,
                editingTask,
                completed,
+               date,
                editing} = this.props
 
         return (
@@ -37,7 +40,12 @@ export default class Task extends Component {
                     />
                     <label>
                         <span className = "description">{text}</span>
-                        <span className = "created"></span>
+                        <span className = "created">
+                            {`created ${formatDistanceToNow(date, {
+                                includeSeconds: true,
+                                addSuffix: true
+                            })}`}
+                        </span>
                     </label>
                     <button className = {completed ? 'hidden' : "icon icon-edit"}
                             onClick = {() => editingTask(id)}>

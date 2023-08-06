@@ -1,8 +1,9 @@
 
 import TasksFilter from "../TasksFilter"
+
 import './Footer.css'
 
-const Footer = ( {taskCount, filteredTask, filter} ) => {
+const Footer = ( {taskCount, filteredTask, filter, clearCompleted} ) => {
     return (
         <footer className="footer">
             <span className="todo-count">{taskCount} items left</span>
@@ -10,7 +11,10 @@ const Footer = ( {taskCount, filteredTask, filter} ) => {
                 filteredTask = {filteredTask}
                 filter = {filter}
             />
-            <button className="clear-completed">Clear completed</button>
+            <button className="clear-completed"
+                    onClick = {clearCompleted}>
+                        Clear completed
+            </button>
         </footer>
     )
 }
