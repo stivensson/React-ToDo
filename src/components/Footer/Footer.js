@@ -1,4 +1,7 @@
 
+import React from 'react'
+import PropTypes from 'prop-types'
+
 import TasksFilter from "../TasksFilter"
 
 import './Footer.css'
@@ -17,6 +20,18 @@ const Footer = ( {taskCount, filteredTask, filter, clearCompleted} ) => {
             </button>
         </footer>
     )
+}
+
+Footer.defaultProps = {
+    taskCount: 0,
+    filter: 'all'
+}
+
+Footer.propTypes = {
+    taskCount: PropTypes.number,
+    filter: PropTypes.string,
+    filteredTask: PropTypes.func.isRequired,
+    clearCompleted: PropTypes.func.isRequired
 }
 
 export default Footer

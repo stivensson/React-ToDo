@@ -1,5 +1,6 @@
 
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import './TasksFilter.css'
 
@@ -29,6 +30,15 @@ const TasksFilter = ( {filteredTask, filter} ) => {
             </li>
         </ul>
     )
+}
+
+TasksFilter.defaultProps = {
+    filter: 'all'
+}
+
+TasksFilter.propTypes = {
+    filter: PropTypes.string,
+    filteredTask: PropTypes.func.isRequired
 }
 
 export default TasksFilter

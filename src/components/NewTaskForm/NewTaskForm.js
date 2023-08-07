@@ -1,9 +1,23 @@
 
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import './NewTaskForm.css'
 
 export default class NewTaskForm extends Component {
+    static defaultProps = {
+        h1: 'todos',
+        placeholder: "What needs to be done?"
+    }
+
+    static propTypes = {
+        h1: PropTypes.string,
+        placeholder: PropTypes.string,
+        onInputText: PropTypes.func,
+        onAddTask: PropTypes.func,
+        addTask: PropTypes.func.isRequired
+    }
+
     state = {
         label: ''
     }
