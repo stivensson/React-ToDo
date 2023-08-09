@@ -115,7 +115,6 @@ export default class App extends Component {
 
   taskCount = () => {
     const count = this.state.taskData.filter((item) => !item.completed)
-
     return count.length
   }
 
@@ -141,5 +140,4 @@ export default class App extends Component {
       </section>
     )
   }
-  let name = 12
 }
