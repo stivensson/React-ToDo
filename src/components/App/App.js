@@ -141,4 +141,5 @@ export default class App extends Component {
       </section>
     )
   }
+  let name = 12
 }
