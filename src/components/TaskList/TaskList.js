@@ -13,10 +13,10 @@ const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask 
         key={id}
         id={id}
         text={label}
-        deleteTask={deleteTask}
-        completedTask={completedTask}
+        deleteTask={() => deleteTask(id)}
+        completedTask={() => completedTask(id)}
         completed={completed}
-        editingTask={editingTask}
+        editingTask={() => editingTask(id)}
         editing={editing}
         addEditTask={addEditTask}
         date={date}

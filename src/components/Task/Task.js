@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
+import classNames from 'classnames'
 
 import './Task.css'
 
 export default class Task extends Component {
+  static propDefault = {
+    label: '',
+  }
+
   static propTypes = {
     id: PropTypes.number,
     text: PropTypes.string,
@@ -33,19 +38,18 @@ export default class Task extends Component {
   }
 
   render() {
-    const { id, text, deleteTask, completedTask, editingTask, completed, date, editing } = this.props
+    const { text, deleteTask, completedTask, editingTask, completed, date, editing } = this.props
 
     return (
-      <li className={completed ? 'completed' : editing ? 'editing' : ''}>
+      <li
+        className={classNames({
+          '': !completed && !editing,
+          completed: completed,
+          editing: editing,
+        })}
+      >
         <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={completed ? true : false}
-            onChange={() => {
-              completedTask(id)
-            }}
-          />
+          <input className="toggle" type="checkbox" checked={completed ? true : false} onChange={completedTask} />
           <label>
             <span className="description">{text}</span>
             <span className="created">
@@ -55,12 +59,18 @@ export default class Task extends Component {
               })}`}
             </span>
           </label>
-          <button className={completed ? 'hidden' : 'icon icon-edit'} onClick={() => editingTask(id)}></button>
-          <button className="icon icon-destroy" onClick={() => deleteTask(id)}></button>
+          <button
+            className={classNames({
+              'icon icon-edit': !completed,
+              hidden: completed,
+            })}
+            onClick={editingTask}
+          ></button>
+          <button className="icon icon-destroy" onClick={deleteTask}></button>
         </div>
         {editing ? (
           <form onSubmit={this.onAddEditTask}>
-            <input className="edit" type="text" value={this.state.label} onChange={this.onAddEditText} />
+            <input className="edit" type="text" value={this.state.label} onChange={this.onAddEditText} required />
           </form>
         ) : null}
       </li>

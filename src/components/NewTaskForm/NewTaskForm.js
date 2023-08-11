@@ -5,15 +5,13 @@ import './NewTaskForm.css'
 
 export default class NewTaskForm extends Component {
   static defaultProps = {
-    h1: 'todos',
-    placeholder: 'What needs to be done?',
+    onInputText: () => {},
+    onAddTask: () => {},
   }
 
   static propTypes = {
-    h1: PropTypes.string,
-    placeholder: PropTypes.string,
-    onInputText: PropTypes.func,
-    onAddTask: PropTypes.func,
+    onInputText: PropTypes.func.isRequired,
+    onAddTask: PropTypes.func.isRequired,
     addTask: PropTypes.func.isRequired,
   }
 
@@ -29,7 +27,7 @@ export default class NewTaskForm extends Component {
 
   onAddTask = (e) => {
     e.preventDefault()
-    if (this.state.label) this.props.addTask(this.state.label)
+    this.props.addTask(this.state.label)
     this.setState({
       label: '',
     })
@@ -47,6 +45,7 @@ export default class NewTaskForm extends Component {
             type="text"
             onChange={this.onInputText}
             value={this.state.label}
+            required
           />
         </form>
       </header>

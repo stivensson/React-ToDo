@@ -63,10 +63,8 @@ export default class App extends Component {
 
       const newTaskData = taskData.toSpliced(this.indexFn(id, taskData), 1, newEl)
 
-      if (editText) {
-        return {
-          taskData: newTaskData,
-        }
+      return {
+        taskData: newTaskData,
       }
     })
   }
