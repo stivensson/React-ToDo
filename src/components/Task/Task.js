@@ -33,8 +33,9 @@ export default class Task extends Component {
   }
 
   onAddEditTask = (e) => {
+    let stateTask = this.state.label
     e.preventDefault()
-    this.props.addEditTask(this.props.id, this.state.label)
+    this.props.addEditTask(stateTask)
   }
 
   render() {

@@ -8,17 +8,17 @@ import './TaskList.css'
 const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask }) => {
   const ulEl = labels.map((item) => {
     const { id, label, completed, editing, date } = item
+
     return (
       <Task
         key={id}
-        id={id}
         text={label}
         deleteTask={() => deleteTask(id)}
         completedTask={() => completedTask(id)}
         completed={completed}
         editingTask={() => editingTask(id)}
         editing={editing}
-        addEditTask={addEditTask}
+        addEditTask={(stateTask) => addEditTask(id, stateTask)}
         date={date}
       />
     )
