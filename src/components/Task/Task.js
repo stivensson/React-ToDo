@@ -11,7 +11,6 @@ export default class Task extends Component {
   }
 
   static propTypes = {
-    id: PropTypes.number,
     text: PropTypes.string,
     completed: PropTypes.bool,
     editing: PropTypes.bool,
@@ -33,9 +32,8 @@ export default class Task extends Component {
   }
 
   onAddEditTask = (e) => {
-    let stateTask = this.state.label
     e.preventDefault()
-    this.props.addEditTask(stateTask)
+    this.props.addEditTask(this.state.label)
   }
 
   render() {
