@@ -18,7 +18,7 @@ const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask 
         completed={completed}
         editingTask={() => editingTask(id)}
         editing={editing}
-        addEditTask={(stateTask) => addEditTask(id, stateTask)}
+        addEditTask={(editText) => addEditTask(id, editText)}
         date={date}
       />
     )
