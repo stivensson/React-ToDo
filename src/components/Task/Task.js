@@ -71,8 +71,6 @@ export default class Task extends Component {
 
   render() {
     const { text, deleteTask, completedTask, editingTask, completed, date, editing } = this.props
-    console.log(this.state.minutes)
-    console.log(this.state.running)
 
     return (
       <li
