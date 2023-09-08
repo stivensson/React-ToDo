@@ -39,11 +39,13 @@
 }
 
 .new-todo-form {
-	display: flex;
-	margin-bottom: 0;
+  display: flex;
+  margin-bottom: 0;
 }
 
-.new-todo, .new-todo-form .new-todo-form__timer, .edit {
+.new-todo,
+.new-todo-form .new-todo-form__timer,
+.edit {
   position: relative;
   margin: 0;
   width: 100%;
@@ -62,6 +64,6 @@
 }
 
 .new-todo-form .new-todo-form__timer {
-	width: 15%;
-	padding-left: 16px;
+  width: 15%;
+  padding-left: 16px;
 }

@@ -86,9 +86,9 @@
 .todo-list li .icon-pause,
 .todo-list li .icon-play {
   position: relative;
-	font-size: 18px;
-	width: 18px;
-	height: 18px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .todo-list li .icon-play {
@@ -100,11 +100,11 @@
 }
 
 .icon-play:after {
-	content: '▶';
+  content: '▶';
 }
 
 .icon-pause:after {
-	content: '⏸';
+  content: '⏸';
 }
 
 .todo-list li .icon-destroy {
