@@ -50,6 +50,12 @@ export default class Task extends Component {
       })
       this.timer = setInterval(() => {
         if (this.state.seconds === 1 && this.state.minutes === 0) clearInterval(this.timer)
+        if (this.props.completed) {
+          this.setState({
+            running: false,
+          })
+          clearInterval(this.timer)
+        }
         if (this.state.seconds === 0 && this.state.minutes >= 1) {
           this.setState({
             minutes: this.state.minutes - 1,
