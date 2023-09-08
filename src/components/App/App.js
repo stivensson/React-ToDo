@@ -20,9 +20,11 @@ export default class App extends Component {
     return index
   }
 
-  addTask = (text) => {
+  addTask = (text, min, sec) => {
     const newTask = {
       label: text,
+      min: min,
+      sec: sec,
       completed: false,
       editing: false,
       date: new Date(),

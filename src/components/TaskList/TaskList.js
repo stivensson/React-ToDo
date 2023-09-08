@@ -7,12 +7,14 @@ import './TaskList.css'
 
 const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask }) => {
   const ulEl = labels.map((item) => {
-    const { id, label, completed, editing, date } = item
+    const { id, label, min, sec, completed, editing, date } = item
 
     return (
       <Task
         key={id}
         text={label}
+        min={min}
+        sec={sec}
         deleteTask={() => deleteTask(id)}
         completedTask={() => completedTask(id)}
         completed={completed}
@@ -36,6 +38,8 @@ TaskList.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
+    min: PropTypes.number,
+    sec: PropTypes.number,
     completed: PropTypes.bool,
     editing: PropTypes.bool,
     date: PropTypes.instanceOf(Date),
