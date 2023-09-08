@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/stivensson/React-ToDo/tree/todo-timer/static/css/main.f5e1a0b4.css",
-    "main.js": "/stivensson/React-ToDo/tree/todo-timer/static/js/main.c6d5e47b.js",
-    "index.html": "/stivensson/React-ToDo/tree/todo-timer/index.html",
-    "main.f5e1a0b4.css.map": "/stivensson/React-ToDo/tree/todo-timer/static/css/main.f5e1a0b4.css.map",
-    "main.c6d5e47b.js.map": "/stivensson/React-ToDo/tree/todo-timer/static/js/main.c6d5e47b.js.map"
+    "main.css": "/React-ToDo/static/css/main.f5e1a0b4.css",
+    "main.js": "/React-ToDo/static/js/main.c6d5e47b.js",
+    "index.html": "/React-ToDo/index.html",
+    "main.f5e1a0b4.css.map": "/React-ToDo/static/css/main.f5e1a0b4.css.map",
+    "main.c6d5e47b.js.map": "/React-ToDo/static/js/main.c6d5e47b.js.map"
   },
   "entrypoints": [
     "static/css/main.f5e1a0b4.css",
