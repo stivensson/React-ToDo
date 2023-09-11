@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
 import NewTaskForm from '../NewTaskForm'
 import TaskList from '../TaskList'
@@ -6,21 +6,18 @@ import Footer from '../Footer'
 
 import './App.css'
 
-export default class App extends Component {
-  state = {
-    taskData: [],
-    filter: 'all',
-  }
+const App = () => {
+  const [taskData, setTaskData] = useState([])
+  const [filter, setFilter] = useState('all')
+  const [idNumber, setIdNumber] = useState(1)
 
-  idNumber = 1
-
-  indexFn = (id, taskData) => {
+  const indexFn = (id, taskData) => {
     const index = taskData.findIndex((item) => item.id === id)
 
     return index
   }
 
-  addTask = (text, min, sec) => {
+  const addTask = (text, min, sec) => {
     const newTask = {
       label: text,
       min: min,
@@ -28,21 +25,19 @@ export default class App extends Component {
       completed: false,
       editing: false,
       date: new Date(),
-      id: this.idNumber++,
+      id: idNumber,
     }
 
-    this.setState(({ taskData }) => {
+    setTaskData((taskData) => {
       const newTaskData = [...taskData, newTask]
 
-      return {
-        taskData: newTaskData,
-      }
+      return newTaskData
     })
+
+    setIdNumber((i) => i + 1)
   }
 
-  filteringTask = () => {
-    const { taskData, filter } = this.state
-
+  const filteringTask = () => {
     if (filter === 'active') {
       return taskData.filter((item) => !item.completed)
     }
@@ -53,91 +48,68 @@ export default class App extends Component {
     return taskData
   }
 
-  filteredTask = (status) => {
-    this.setState({ filter: status })
+  const filteredTask = (status) => {
+    setFilter(status)
   }
 
-  addEditTask = (id, editText) => {
-    this.setState(({ taskData }) => {
-      const oldEl = taskData[this.indexFn(id, taskData)]
-
+  const addEditTask = (id, editText) => {
+    setTaskData((taskData) => {
+      const oldEl = taskData[indexFn(id, taskData)]
       const newEl = { ...oldEl, editing: !oldEl.editing, label: editText }
+      const newTaskData = taskData.toSpliced(indexFn(id, taskData), 1, newEl)
 
-      const newTaskData = taskData.toSpliced(this.indexFn(id, taskData), 1, newEl)
-
-      return {
-        taskData: newTaskData,
-      }
+      return newTaskData
     })
   }
 
-  deleteTask = (id) => {
-    this.setState(({ taskData }) => {
-      const newTaskData = taskData.toSpliced(this.indexFn(id, taskData), 1)
+  const deleteTask = (id) => {
+    setTaskData((taskData) => {
+      const newTaskData = taskData.toSpliced(indexFn(id, taskData), 1)
 
-      return {
-        taskData: newTaskData,
-      }
+      return newTaskData
     })
   }
 
-  toggleProperty = (data, id, property) => {
-    const oldEl = data[this.indexFn(id, data)]
+  const toggleProperty = (data, id, property) => {
+    const oldEl = data[indexFn(id, data)]
 
     const newEl = { ...oldEl, [property]: !oldEl[property] }
 
-    return data.toSpliced(this.indexFn(id, data), 1, newEl)
+    return data.toSpliced(indexFn(id, data), 1, newEl)
   }
 
-  completedTask = (id) => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: this.toggleProperty(taskData, id, 'completed'),
-      }
-    })
+  const completedTask = (id) => {
+    setTaskData((taskData) => toggleProperty(taskData, id, 'completed'))
   }
 
-  editingTask = (id) => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: this.toggleProperty(taskData, id, 'editing'),
-      }
-    })
+  const editingTask = (id) => {
+    setTaskData((taskData) => toggleProperty(taskData, id, 'editing'))
   }
 
-  clearCompleted = () => {
-    this.setState(({ taskData }) => {
-      return {
-        taskData: taskData.filter((item) => !item.completed),
-      }
-    })
+  const clearCompleted = () => {
+    setTaskData((taskData) => taskData.filter((item) => !item.completed))
   }
 
-  taskCount = () => {
-    const count = this.state.taskData.filter((item) => !item.completed)
+  const taskCount = () => {
+    const count = taskData.filter((item) => !item.completed)
     return count.length
   }
 
-  render() {
-    return (
-      <section className="todoapp">
-        <NewTaskForm addTask={this.addTask} />
-        <section className="main">
-          <TaskList
-            labels={this.filteringTask()}
-            deleteTask={this.deleteTask}
-            completedTask={this.completedTask}
-            editingTask={this.editingTask}
-            addEditTask={this.addEditTask}
-          />
-          <Footer
-            taskCount={this.taskCount()}
-            filteredTask={this.filteredTask}
-            filter={this.state.filter}
-            clearCompleted={this.clearCompleted}
-          />
-        </section>
+  return (
+    <section className="todoapp">
+      <NewTaskForm addTask={addTask} />
+      <section className="main">
+        <TaskList
+          labels={filteringTask()}
+          deleteTask={deleteTask}
+          completedTask={completedTask}
+          editingTask={editingTask}
+          addEditTask={addEditTask}
+        />
+        <Footer taskCount={taskCount()} filteredTask={filteredTask} filter={filter} clearCompleted={clearCompleted} />
       </section>
-    )
-  }
+    </section>
+  )
 }
+
+export default App

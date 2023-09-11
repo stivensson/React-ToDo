@@ -1,97 +1,89 @@
-import React, { Component } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import './NewTaskForm.css'
 
-export default class NewTaskForm extends Component {
-  static defaultProps = {
-    onInputText: () => {},
-    onInputMin: () => {},
-    onInputSec: () => {},
-    onAddTask: () => {},
+const NewTaskForm = ({ addTask }) => {
+  const [label, setLabel] = useState('')
+  const [min, setMin] = useState('')
+  const [sec, setSec] = useState('')
+
+  const onInputText = (e) => {
+    setLabel(e.target.value.trimStart())
   }
 
-  static propTypes = {
-    onInputText: PropTypes.func.isRequired,
-    onInputMin: PropTypes.func.isRequired,
-    onInputSec: PropTypes.func.isRequired,
-    onAddTask: PropTypes.func.isRequired,
-    addTask: PropTypes.func.isRequired,
-  }
-
-  state = {
-    label: '',
-    min: '',
-    sec: '',
-  }
-
-  onInputText = (e) => {
-    this.setState({
-      label: e.target.value.trimStart(),
-    })
-  }
-
-  onInputMin = (e) => {
+  const onInputMin = (e) => {
     let minutes = Math.min(59, Math.max(0, e.target.value))
     if (minutes === -1) minutes = ''
-    this.setState({
-      min: minutes,
-    })
+    setMin(minutes)
   }
 
-  onInputSec = (e) => {
+  const onInputSec = (e) => {
     let seconds = Math.min(59, Math.max(0, e.target.value))
     if (seconds === 0) seconds = ''
-    this.setState({
-      sec: seconds,
-    })
+    setSec(seconds)
   }
 
-  onAddTask = (e) => {
+  const inputRef = useRef()
+
+  const onAddTask = (e) => {
     e.preventDefault()
-    this.props.addTask(this.state.label, this.state.min, this.state.sec)
-    this.setState({
-      label: '',
-      min: '',
-      sec: '',
-    })
-    this.inputRef.focus()
+    addTask(label, min, sec)
+    setLabel('')
+    setMin('')
+    setSec('')
+    inputRef.current.focus()
   }
 
-  render() {
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form className="new-todo-form" onSubmit={this.onAddTask}>
-          <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            autoFocus
-            type="text"
-            onChange={this.onInputText}
-            value={this.state.label}
-            required
-            ref={(inputRef) => (this.inputRef = inputRef)}
-          />
-          <input
-            className="new-todo-form__timer"
-            placeholder="Min"
-            type="number"
-            onChange={this.onInputMin}
-            value={this.state.min}
-            required
-          />
-          <input
-            className="new-todo-form__timer"
-            placeholder="Sec"
-            type="number"
-            onChange={this.onInputSec}
-            value={this.state.sec}
-            required
-          />
-          <button></button>
-        </form>
-      </header>
-    )
-  }
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form className="new-todo-form" onSubmit={onAddTask}>
+        <input
+          className="new-todo"
+          placeholder="What needs to be done?"
+          autoFocus
+          type="text"
+          onChange={onInputText}
+          value={label}
+          required
+          ref={inputRef}
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Min"
+          type="number"
+          onChange={onInputMin}
+          value={min}
+          required
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          type="number"
+          onChange={onInputSec}
+          value={sec}
+          required
+        />
+        <button></button>
+      </form>
+    </header>
+  )
 }
+
+NewTaskForm.defaultProps = {
+  onInputText: () => {},
+  onInputMin: () => {},
+  onInputSec: () => {},
+  onAddTask: () => {},
+}
+
+NewTaskForm.propTypes = {
+  onInputText: PropTypes.func.isRequired,
+  onInputMin: PropTypes.func.isRequired,
+  onInputSec: PropTypes.func.isRequired,
+  onAddTask: PropTypes.func.isRequired,
+  addTask: PropTypes.func.isRequired,
+}
+
+export default NewTaskForm
