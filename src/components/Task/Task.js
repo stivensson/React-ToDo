@@ -25,9 +25,6 @@ export default class Task extends Component {
 
   state = {
     label: this.props.text,
-    minutes: this.props.min,
-    seconds: this.props.sec,
-    running: false,
   }
 
   onAddEditText = (e) => {
@@ -41,42 +38,21 @@ export default class Task extends Component {
     this.props.addEditTask(this.state.label)
   }
 
-  timer = null
-
-  onRunTimer = () => {
-    if (!this.state.running) {
-      this.setState({
-        running: true,
-      })
-      this.timer = setInterval(() => {
-        if (this.state.seconds === 1 && this.state.minutes === 0) clearInterval(this.timer)
-        if (this.props.completed) {
-          this.setState({
-            running: false,
-          })
-          clearInterval(this.timer)
-        }
-        if (this.state.seconds === 0 && this.state.minutes >= 1) {
-          this.setState({
-            minutes: this.state.minutes - 1,
-            seconds: 59,
-          })
-        } else {
-          this.setState({
-            seconds: this.state.seconds - 1,
-          })
-        }
-      }, 1000)
-    } else {
-      clearInterval(this.timer)
-      this.setState({
-        running: false,
-      })
-    }
-  }
-
   render() {
-    const { text, deleteTask, completedTask, editingTask, completed, date, editing } = this.props
+    const {
+      text,
+      deleteTask,
+      completedTask,
+      editingTask,
+      completed,
+      date,
+      editing,
+      runTimer,
+      stopTimer,
+      running,
+      min,
+      sec,
+    } = this.props
 
     return (
       <li
@@ -97,23 +73,22 @@ export default class Task extends Component {
               })}
             >
               <button
-                disabled={((this.state.minutes === 0 && this.state.seconds === 0) || completed) && true}
+                disabled={((min === 0 && sec === 0) || completed) && true}
                 className={classNames({
-                  'icon icon-play': !this.state.running,
-                  hidden: this.state.running || (this.state.minutes === 0 && this.state.seconds === 0) || completed,
+                  'icon icon-play': !running,
+                  hidden: running || (min === 0 && sec === 0) || completed,
                 })}
-                onClick={this.onRunTimer}
+                onClick={runTimer}
               ></button>
               <button
-                disabled={this.state.minutes === 0 && this.state.seconds === 0 && true}
+                disabled={min === 0 && sec === 0 && true}
                 className={classNames({
-                  'icon icon-pause': this.state.running,
-                  hidden: !this.state.running || (this.state.minutes === 0 && this.state.seconds === 0),
+                  'icon icon-pause': running,
+                  hidden: !running || (min === 0 && sec === 0),
                 })}
-                onClick={this.onRunTimer}
+                onClick={stopTimer}
               ></button>
-              {this.state.minutes < 10 ? '0' + this.state.minutes : this.state.minutes}:
-              {this.state.seconds < 10 ? '0' + this.state.seconds : this.state.seconds}
+              {min < 10 ? '0' + min : min}:{sec < 10 ? '0' + sec : sec}
             </span>
             <span className="created">
               {`created ${formatDistanceToNow(date, {
