@@ -1,15 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 import classNames from 'classnames'
 
 import './Task.css'
 
-const Task = ({ text, min, sec, deleteTask, completedTask, editingTask, completed, date, editing, addEditTask }) => {
+const Task = ({
+  text,
+  min,
+  sec,
+  deleteTask,
+  completedTask,
+  editingTask,
+  completed,
+  date,
+  editing,
+  addEditTask,
+  running,
+  runTimer,
+  stopTimer,
+}) => {
   const [label, setLabel] = useState(text)
-  const [minutes, setMinutes] = useState(min)
-  const [seconds, setSeconds] = useState(sec)
-  const [running, setRunning] = useState(false)
 
   const onAddEditText = (e) => {
     setLabel(e.target.value.trimStart())
@@ -19,30 +30,6 @@ const Task = ({ text, min, sec, deleteTask, completedTask, editingTask, complete
     e.preventDefault()
     addEditTask(label)
   }
-
-  const onRunTimer = () => {
-    setRunning((r) => !r)
-  }
-
-  useEffect(() => {
-    if (!running) return
-    const timer = setInterval(() => {
-      setSeconds((s) => s - 1)
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [running])
-
-  useEffect(() => {
-    if (seconds === -1 && minutes >= 1) {
-      setMinutes((m) => m - 1)
-      setSeconds(59)
-    }
-
-    if (completed) setRunning(false)
-
-    if (minutes === 0 && seconds === 0) setRunning(false)
-  })
 
   return (
     <li
@@ -63,22 +50,22 @@ const Task = ({ text, min, sec, deleteTask, completedTask, editingTask, complete
             })}
           >
             <button
-              disabled={((minutes === 0 && seconds === 0) || completed) && true}
+              disabled={((min === 0 && sec === 0) || completed) && true}
               className={classNames({
                 'icon icon-play': !running,
-                hidden: running || (minutes === 0 && seconds === 0) || completed,
+                hidden: running || (min === 0 && sec === 0) || completed,
               })}
-              onClick={onRunTimer}
+              onClick={runTimer}
             ></button>
             <button
-              disabled={minutes === 0 && seconds === 0 && true}
+              disabled={min === 0 && sec === 0 && true}
               className={classNames({
                 'icon icon-pause': running,
-                hidden: !running || (minutes === 0 && seconds === 0),
+                hidden: !running || (min === 0 && sec === 0),
               })}
-              onClick={onRunTimer}
+              onClick={stopTimer}
             ></button>
-            {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}
+            {min < 10 ? '0' + min : min}:{sec < 10 ? '0' + sec : sec}
           </span>
           <span className="created">
             {`created ${formatDistanceToNow(date, {
@@ -103,7 +90,6 @@ const Task = ({ text, min, sec, deleteTask, completedTask, editingTask, complete
       ) : null}
     </li>
   )
-  // }
 }
 
 Task.defaultProps = {

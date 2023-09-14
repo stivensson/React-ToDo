@@ -5,9 +5,9 @@ import Task from '../Task'
 
 import './TaskList.css'
 
-const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask }) => {
+const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask, runTimer, stopTimer }) => {
   const ulEl = labels.map((item) => {
-    const { id, label, min, sec, completed, editing, date } = item
+    const { id, label, min, sec, completed, editing, date, running } = item
 
     return (
       <Task
@@ -22,6 +22,9 @@ const TaskList = ({ labels, deleteTask, completedTask, editingTask, addEditTask 
         editing={editing}
         addEditTask={(editText) => addEditTask(id, editText)}
         date={date}
+        running={running}
+        runTimer={() => runTimer(id)}
+        stopTimer={() => stopTimer(id)}
       />
     )
   })

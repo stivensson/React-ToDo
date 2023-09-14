@@ -26,6 +26,8 @@ const App = () => {
       editing: false,
       date: new Date(),
       id: idNumber,
+      running: false,
+      timer: null,
     }
 
     setTaskData((taskData) => {
@@ -90,9 +92,49 @@ const App = () => {
     setTaskData((taskData) => taskData.filter((item) => !item.completed))
   }
 
-  const taskCount = () => {
-    const count = taskData.filter((item) => !item.completed)
-    return count.length
+  const taskCount = taskData.filter((item) => !item.completed).length
+
+  const stopTimer = (id) => {
+    const { timer } = taskData.find((item) => item.id === id)
+
+    setTaskData((taskData) => toggleProperty(taskData, id, 'running'))
+
+    clearInterval(timer)
+  }
+
+  const runTimer = (id) => {
+    let timer = null
+    const { running } = taskData.find((item) => item.id === id)
+    if (!running) {
+      timer = setInterval(() => {
+        setTaskData((taskData) => {
+          const newTaskData = taskData.map((item) => {
+            if (item.id === id) {
+              if (item.sec === 1 && item.min === 0) clearInterval(timer)
+              if (item.completed) {
+                item.running = false
+                clearInterval(timer)
+              }
+              if (item.sec === 0 && item.min >= 1) {
+                item.min -= 1
+                item.sec = 59
+              } else {
+                item.sec -= 1
+              }
+            }
+            return item
+          })
+          return newTaskData
+        })
+      }, 1000)
+      setTaskData((taskData) => {
+        const indexTask = indexFn(id, taskData)
+        const newTaskData = [...taskData]
+        newTaskData[indexTask].timer = timer
+        newTaskData[indexTask].running = true
+        return newTaskData
+      })
+    }
   }
 
   return (
@@ -105,8 +147,10 @@ const App = () => {
           completedTask={completedTask}
           editingTask={editingTask}
           addEditTask={addEditTask}
+          runTimer={runTimer}
+          stopTimer={stopTimer}
         />
-        <Footer taskCount={taskCount()} filteredTask={filteredTask} filter={filter} clearCompleted={clearCompleted} />
+        <Footer taskCount={taskCount} filteredTask={filteredTask} filter={filter} clearCompleted={clearCompleted} />
       </section>
     </section>
   )
