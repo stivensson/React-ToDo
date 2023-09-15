@@ -74,6 +74,9 @@ export default class App extends Component {
   }
 
   deleteTask = (id) => {
+    const { timer } = this.state.taskData.find((item) => item.id === id)
+    clearInterval(timer)
+
     this.setState(({ taskData }) => {
       const newTaskData = taskData.toSpliced(this.indexFn(id, taskData), 1)
 
