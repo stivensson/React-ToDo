@@ -20,13 +20,17 @@ export default class App extends Component {
     return index
   }
 
-  addTask = (text) => {
+  addTask = (text, min, sec) => {
     const newTask = {
       label: text,
+      min: min,
+      sec: sec,
       completed: false,
       editing: false,
       date: new Date(),
       id: this.idNumber++,
+      running: false,
+      timer: null,
     }
 
     this.setState(({ taskData }) => {
@@ -70,6 +74,9 @@ export default class App extends Component {
   }
 
   deleteTask = (id) => {
+    const { timer } = this.state.taskData.find((item) => item.id === id)
+    clearInterval(timer)
+
     this.setState(({ taskData }) => {
       const newTaskData = taskData.toSpliced(this.indexFn(id, taskData), 1)
 
@@ -116,6 +123,57 @@ export default class App extends Component {
     return count.length
   }
 
+  stopTimer = (id) => {
+    const { timer } = this.state.taskData.find((item) => item.id === id)
+
+    this.setState(({ taskData }) => {
+      return {
+        taskData: this.toggleProperty(taskData, id, 'running'),
+      }
+    })
+
+    clearInterval(timer)
+  }
+
+  runTimer = (id) => {
+    let timer = null
+    const { running } = this.state.taskData.find((item) => item.id === id)
+    if (!running) {
+      timer = setInterval(() => {
+        this.setState(({ taskData }) => {
+          const newTaskData = taskData.map((item) => {
+            if (item.id === id) {
+              if (item.sec === 1 && item.min === 0) clearInterval(timer)
+              if (item.completed) {
+                item.running = false
+                clearInterval(timer)
+              }
+              if (item.sec === 0 && item.min >= 1) {
+                item.min -= 1
+                item.sec = 59
+              } else {
+                item.sec -= 1
+              }
+            }
+            return item
+          })
+          return {
+            taskData: newTaskData,
+          }
+        })
+      }, 1000)
+      this.setState(({ taskData }) => {
+        const indexTask = this.indexFn(id, taskData)
+        const newTaskData = [...taskData]
+        newTaskData[indexTask].timer = timer
+        newTaskData[indexTask].running = true
+        return {
+          taskData: newTaskData,
+        }
+      })
+    }
+  }
+
   render() {
     return (
       <section className="todoapp">
@@ -127,6 +185,8 @@ export default class App extends Component {
             completedTask={this.completedTask}
             editingTask={this.editingTask}
             addEditTask={this.addEditTask}
+            runTimer={this.runTimer}
+            stopTimer={this.stopTimer}
           />
           <Footer
             taskCount={this.taskCount()}
