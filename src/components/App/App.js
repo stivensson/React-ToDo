@@ -65,6 +65,9 @@ const App = () => {
   }
 
   const deleteTask = (id) => {
+    const { timer } = taskData.find((item) => item.id === id)
+    clearInterval(timer)
+
     setTaskData((taskData) => {
       const newTaskData = taskData.toSpliced(indexFn(id, taskData), 1)
 
@@ -107,6 +110,7 @@ const App = () => {
     const { running } = taskData.find((item) => item.id === id)
     if (!running) {
       timer = setInterval(() => {
+        console.log('tick')
         setTaskData((taskData) => {
           const newTaskData = taskData.map((item) => {
             if (item.id === id) {
